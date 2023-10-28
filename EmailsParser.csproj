@@ -16,8 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\net7.0\mailNotFound.txt" />
-    <Content Include="bin\Debug\net7.0\mails.txt" />
+    <Folder Include="bin\Debug\net7.0\" />
   </ItemGroup>
 
 </Project>

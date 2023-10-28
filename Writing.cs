@@ -4,13 +4,27 @@ namespace EmailsParser
 {
     public class Writing : IWritingService
     {
-        public async Task WriteMailAsync(string mail, string path)
+        public async Task WriteMailAsync(string email, string path)
         {
             try
             {
                 using (var stream = new StreamWriter(path, true))
                 {
-                    await stream.WriteLineAsync(mail);
+                    if (File.Exists(path))
+                    {
+                        await Console.Out.WriteLineAsync(email);
+                        await stream.WriteLineAsync(email);
+
+                    }
+                    else
+                    {
+                        var fileController = File.Create(path);
+                        fileController.Close();
+                        await Console.Out.WriteLineAsync(email);
+                        await stream.WriteLineAsync(email);
+
+                    }
+
                     stream.Close();
                 }
 
@@ -26,7 +40,19 @@ namespace EmailsParser
             {
                 using (var stream = new StreamWriter(path, true))
                 {
-                    await stream.WriteLineAsync(fileName);
+                    if (File.Exists(path))
+                    {
+                        await stream.WriteLineAsync(fileName);
+
+                    }
+                    else
+                    {
+                        var fileController = File.Create(path);
+                        fileController.Close();
+                        await stream.WriteLineAsync(fileName);
+
+                    }
+
                     stream.Close();
                 }
             }
