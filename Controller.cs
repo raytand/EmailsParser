@@ -1,33 +1,41 @@
-﻿namespace EmailsParser
+﻿using EmailsParser.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+namespace EmailsParser
 {
     public class Controller
     {
-        private readonly ConsoleInput input = new ConsoleInput();
-        private readonly Parsing parsing = new Parsing();
-        //Cotrol method to do make start up process not in static main
-        public async Task Control()
+        private readonly IInputService _input;
+        private readonly IParsingService _parsing;
+        public Controller(IParsingService parsing,IInputService input)
         {
-            string path = await input.PathInput();
+            _parsing = parsing;
+            _input = input;
+        }
+
+        //Control method to do make start up process not in static main
+        public async Task ControlAsync()
+        {
+            string path = await _input.PathInput();
 
             if (path == null)
             {
-                Console.WriteLine("Path cannot be null");
+                await Console.Out.WriteLineAsync("Path cannot be null");
                 return;
             }
 
             if (!Directory.Exists(path))
             {
-                Console.WriteLine("Cannot find directory");
-                Console.WriteLine("Try again");
+                await Console.Out.WriteLineAsync("Cannot find directory");
+                await Console.Out.WriteLineAsync("Try again");
                 return;
             }
             try
             {
-                await parsing.ParseAsync(path);
+                await _parsing.ParseAsync(path);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                await Console.Out.WriteLineAsync(ex.Message);
             }
         }
 

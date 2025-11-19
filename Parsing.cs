@@ -3,9 +3,14 @@ using System.Text.RegularExpressions;
 
 namespace EmailsParser
 {
-    internal class Parsing : IParsingService
+    public class ParsingService : IParsingService
     {
-        private readonly Writing writing = new Writing();
+        private readonly IWritingService writing;
+
+        public ParsingService(IWritingService writing)
+        {
+            this.writing = writing;
+        }
 
         public async Task ParseAsync(string path)
         {

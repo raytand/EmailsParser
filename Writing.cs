@@ -2,7 +2,7 @@
 
 namespace EmailsParser
 {
-    public class Writing : IWritingService
+    public class WritingService : IWritingService
     {
         public async Task WriteMailAsync(string email, string path)
         {
